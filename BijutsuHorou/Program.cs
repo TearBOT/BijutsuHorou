@@ -20,6 +20,7 @@ namespace BijutsuHorou
         static void Main()
         {
             var fileContent = File.ReadAllLines("danbooru.txt");
+            var imageCount = 0;
 
             darkDir = fileContent[0];
             lightDir = fileContent[1];
@@ -28,7 +29,11 @@ namespace BijutsuHorou
             if (!Directory.Exists(lightDir))
                 Directory.CreateDirectory(lightDir);
             foreach (var line in fileContent.Skip(2))
+            {
+                imageCount++;
+                Console.Write("\r" + imageCount + "/" + (fileContent.Length - 2));
                 downloadImage(line).GetAwaiter().GetResult();
+            }
         }
 
         private static async Task downloadImage(string line)
